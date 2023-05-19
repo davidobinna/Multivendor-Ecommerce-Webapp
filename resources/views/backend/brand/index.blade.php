@@ -10,11 +10,11 @@
                         <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>Brand</h2>
                         <a class="btn btn-sm btn-outline-secondary mb-2" href="{{route('brand.create')}}">Create a Brand</a> <div></div>
                         <ul class="breadcrumb float-left">
-                            <li class="breadcrumb-item"><a href="{{route('admin')}}"><i class="icon-home"></i></a></li>                            
+                            <li class="breadcrumb-item"><a href="{{route('admin')}}"><i class="icon-home"></i></a></li>
                             <li class="breadcrumb-item active">All Brands</li>
                         </ul>
                         <p class="float-right">Total Brands: {{ App\Models\Brand::count() }}</p>
-                    </div>            
+                    </div>
                     <div class="col-lg-6 col-md-4 col-sm-12 text-right">
                         <div class="inlineblock text-center m-r-15 m-l-15 hidden-sm">
                             <div class="sparkline text-left" data-type="line" data-width="8em" data-height="20px" data-line-Width="1" data-line-Color="#00c5dc"
@@ -29,12 +29,12 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="row clearfix">
                 <div class="col-lg-12">
                          @include('backend.layouts.notification')
                         <div class="header">
-                            <h2><strong>Brand</strong> List</h2>     
+                            <h2><strong>Brand</strong> List</h2>
                         </div>
                         <div class="body">
                             <div class="table-responsive">
@@ -48,7 +48,7 @@
                                             <th>Status</th>
                                             <th>Actions</th>
                                       </tr>
-                                    </thead>                            
+                                    </thead>
                                     <tbody>
                                     @foreach($brands as $item)
                                     <tr>
@@ -56,7 +56,7 @@
                                             <td>{{$item->title}}</td>
                                             <td>{{$item->slug}}</td>
                                             <td><img src="{{$item->photo}}" alt="banner-image" style="max-height: 90px; max-width: 100px ;"></td>
-                                            
+
                                             <td><input type="checkbox" name="toggle" value="{{$item->id}}" data-toggle="switchbutton" {{$item->status=='active' ? 'checked' : ''}} data-onlabel="active" data-offlabel="inactive" data-size="sm" data-onstyle="success" data-offstyle="danger"></td>
                                              <td>
                                                 <div class="row">
@@ -70,16 +70,16 @@
                                                 <a href="" data-toggle="tooltip" title="delete" data-id= "{{$item->id}}"class="dbtn btn-sm btn-outlne-danger" data-placement="bottom"> <i class="fas fa-trash"></i> </a>
                                                 </form>
                                                 </div>
-                                                </div> 
+                                                </div>
                                             </td>
-                                             
+
                                          </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                    </div>                   
+                    </div>
                 </div>
             </div>
 
@@ -141,7 +141,7 @@ $('.dbtn').click(function (e) {
                     alert('Please try again later');
                  }
             }
-         }) 
+         })
       });
       //http://127.0.0.1:8000/admin/banner
    </script>

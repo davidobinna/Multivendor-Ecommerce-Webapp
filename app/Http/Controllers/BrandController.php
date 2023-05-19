@@ -16,7 +16,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        
+
         $brands = Brand::orderBy('id','DESC')->get();
         return view('backend.brand.index',compact('brands'));
     }
@@ -28,7 +28,7 @@ class BrandController extends Controller
        $data = htmlspecialchars($request->mode);
        $data = stripslashes($request->mode);
        $data = trim($request->mode);
-       
+
      //   \Debugbar::messages($request->all());
        if ($data == 'true' ) {
            # code...
@@ -63,12 +63,12 @@ class BrandController extends Controller
         'status'  => 'nullable|in:active,inactive',
       ]);
       $data = $request->all();
-      $slug = Str::slug($request->input('title')); 
+      $slug = Str::slug($request->input('title'));
             $slug_count=Brand::where('slug',$slug)->count();
             if ($slug_count > 0 ) {
                 # code...
                 $slug = time().'-'.$slug;
-            } 
+            }
 
             $data['slug']=$slug;
             $status = Brand::create($data);
@@ -108,7 +108,7 @@ class BrandController extends Controller
       }  else {
              return back()->with('error','Data not found');
     }
-         
+
     }
 
     /**
@@ -130,7 +130,7 @@ class BrandController extends Controller
         ]);
 
         $data = $request->all();
-        $status = $brand->fill($data)->save();               
+        $status = $brand->fill($data)->save();
          if ($status) {
             # code...
             return \Redirect::route('brand.index')->with('success','Successfully updated a brand');
@@ -158,8 +158,8 @@ class BrandController extends Controller
                 # code...
                 return \Redirect::route('brand.index')->with('success','Brand successfully deleted');
              } else {
-                
-                return back()->with('error','Someting went wrong');      
+
+                return back()->with('error','Someting went wrong');
              }
 
           }  else {
