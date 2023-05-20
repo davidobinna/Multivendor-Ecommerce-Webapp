@@ -51,6 +51,9 @@ STAGE 10:
 -Create Product Controller
 -Create dummy data and fetch that data in index
 
+STAGE 11:
+-create and Read operation on Product managment
+
  Buit with laravel 8:
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>

@@ -26,7 +26,7 @@ class ProductController extends Controller
         $data = htmlspecialchars($request->mode);
         $data = stripslashes($request->mode);
         $data = trim($request->mode);
-        
+
       //   \Debugbar::messages($request->all());
         if ($data == 'true' ) {
             # code...
@@ -44,7 +44,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+         return view('backend.product.create');
     }
 
     /**
