@@ -45,6 +45,21 @@ class ProductController extends Controller
     public function create()
     {
          return view('backend.product.create');
+
+         //Make sure to remove this later
+         $data = strip_tags($request->mode);
+         $data = htmlspecialchars($request->mode);
+         $data = stripslashes($request->mode);
+         $data = trim($request->mode);
+
+       //   \Debugbar::messages($request->all());
+         if ($data == 'true' ) {
+             # code...
+             DB::table('products')->where('id',$request->id)->update(['status'=>'active']);
+         } else {
+             DB::table('products')->where('id',$request->id)->update(['status'=>'inactive']);
+         }
+         return response()->json(['msg'=>'Sucessfully updated product status','status'=>true]);
     }
 
     /**

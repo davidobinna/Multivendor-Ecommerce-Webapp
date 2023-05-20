@@ -27,7 +27,7 @@ class BannerController extends Controller
         $data = htmlspecialchars($request->mode);
         $data = stripslashes($request->mode);
         $data = trim($request->mode);
-        
+
       //   \Debugbar::messages($request->all());
         if ($data == 'true' ) {
             # code...
@@ -47,6 +47,21 @@ class BannerController extends Controller
     {
         //
         return view('backend.banners.create');
+
+        //Make sure to remove this later
+        $data = strip_tags($request->mode);
+        $data = htmlspecialchars($request->mode);
+        $data = stripslashes($request->mode);
+        $data = trim($request->mode);
+
+      //   \Debugbar::messages($request->all());
+        if ($data == 'true' ) {
+            # code...
+            DB::table('banners')->where('id',$request->id)->update(['status'=>'active']);
+        } else {
+            DB::table('banners')->where('id',$request->id)->update(['status'=>'inactive']);
+        }
+        return response()->json(['msg'=>'Sucessfully updated banner status','status'=>true]);
     }
 
     /**
@@ -57,7 +72,7 @@ class BannerController extends Controller
      */
     public function store(Request $request)
     {
-        
+
             $this->validate($request,[
                 'title'=>'string|required',
                 'photo'=>'required',
@@ -67,22 +82,22 @@ class BannerController extends Controller
             ]);
 
             $data = $request->all();
-            $slug = Str::slug($request->input('title')); 
+            $slug = Str::slug($request->input('title'));
             $slug_count=Banner::where('slug',$slug)->count();
             if ($slug_count > 0 ) {
                 # code...
                 $slug = time().'-'.$slug;
-            } 
+            }
 
             $data['slug']=$slug;
-            $status = Banner::create($data);   
+            $status = Banner::create($data);
 
             if ($status) {
                 # code...
                 return \Redirect::route('banner.index')->with('success','Successfully created banner ');
             } else {
                 return back()->with('error', 'Please fill the required data! '.$e->getMessage());
-            }        
+            }
 
     }
 
@@ -114,7 +129,7 @@ class BannerController extends Controller
           }  else {
                  return back()->with('error','Data not found');
         }
-        
+
     }
 
     /**
@@ -127,7 +142,7 @@ class BannerController extends Controller
     public function update(Request $request, $id)
     {
         //
-    //    try {           
+    //    try {
             $banner = Banner::find($id);
               # code...
               if ($banner) {
@@ -139,9 +154,9 @@ class BannerController extends Controller
                     'condition'=>'nullable|in:banner,promo',
                     'status'=>'nullable|in:active,inactive',
                 ]);
-    
+
                 $data = $request->all();
-                $status = $banner->fill($data)->save();               
+                $status = $banner->fill($data)->save();
                  if ($status) {
                     # code...
                     return \Redirect::route('banner.index')->with('success','Successfully updated banner');
@@ -170,8 +185,8 @@ class BannerController extends Controller
                 # code...
                 return \Redirect::route('banner.index')->with('success','Successfully deleted banner');
              } else {
-                
-                return back()->with('error','Someting went wrong');      
+
+                return back()->with('error','Someting went wrong');
              }
 
           }  else {

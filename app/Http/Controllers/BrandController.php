@@ -47,6 +47,21 @@ class BrandController extends Controller
     public function create()
     {
         return view('backend.brand.create');
+        //make sure to remove this later
+        $data = strip_tags($request->mode);
+        $data = htmlspecialchars($request->mode);
+        $data = stripslashes($request->mode);
+        $data = trim($request->mode);
+
+      //   \Debugbar::messages($request->all());
+        if ($data == 'true' ) {
+            # code...
+            DB::table('brands')->where('id',$request->id)->update(['status'=>'active']);
+        } else {
+            DB::table('brands')->where('id',$request->id)->update(['status'=>'inactive']);
+        }
+        return response()->json(['msg'=>'Sucessfully updated the brand status','status'=>true]);
+
     }
 
     /**
