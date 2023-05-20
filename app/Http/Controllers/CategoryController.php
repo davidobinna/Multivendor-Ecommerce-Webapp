@@ -27,7 +27,7 @@ class CategoryController extends Controller
        $data = htmlspecialchars($request->mode);
        $data = stripslashes($request->mode);
        $data = trim($request->mode);
-       
+
      //   \Debugbar::messages($request->all());
        if ($data == 'true' ) {
            # code...
@@ -48,6 +48,21 @@ class CategoryController extends Controller
         //
         $parents = Category::where('is_parent',1)->orderBy('title','ASC')->get();
         return view('backend.category.create',compact('parents'));
+
+        //make sure to remove this
+        $data = strip_tags($request->mode);
+        $data = htmlspecialchars($request->mode);
+        $data = stripslashes($request->mode);
+        $data = trim($request->mode);
+
+      //   \Debugbar::messages($request->all());
+        if ($data == 'true' ) {
+            # code...
+            DB::table('categories')->where('id',$request->id)->update(['status'=>'active']);
+        } else {
+            DB::table('categories')->where('id',$request->id)->update(['status'=>'inactive']);
+        }
+        return response()->json(['msg'=>'Sucessfully updated category status','status'=>true]);
     }
 
     /**
@@ -66,14 +81,14 @@ class CategoryController extends Controller
             'parent_id' => 'nullable',
             'status'    =>  'nullable|in:active,inactive'
          ]);
-          
+
          $data = $request->all();
-         $slug = Str::slug($request->input('title')); 
+         $slug = Str::slug($request->input('title'));
          $slug_count=Category::where('slug',$slug)->count();
          if ($slug_count > 0 ) {
              # code...
              $slug = time().'-'.$slug;
-         } 
+         }
 
          $data['slug']=$slug;
          if ($request->input('is_parent') == '1') {
@@ -82,7 +97,7 @@ class CategoryController extends Controller
          } else {
             $data['is_parent'] = false;
          }
-         
+
         // $data['is_parent']=$request->input('parent_id',0);
          $status = Category::create($data);
          if ($status) {
@@ -114,7 +129,7 @@ class CategoryController extends Controller
     {
         //
         $parents = Category::where('is_parent',1)->orderBy('title','ASC')->get();
-        $category=Category::find($id); 
+        $category=Category::find($id);
         if ($category) {
             return view('backend.category.edit',compact('category','parents'));
         } else {
@@ -141,7 +156,7 @@ class CategoryController extends Controller
                 'parent_id' => 'nullable',
                 'status'    =>  'nullable|in:active,inactive'
              ]);
-              
+
              $data = $request->all();
              if ($request->input('is_parent') == '1') {
                 # code...
@@ -156,12 +171,12 @@ class CategoryController extends Controller
                 return \Redirect::route('category.index')->with('success','Category Successfully Updated');
               } else {
                   return back()->with('error','Something went wrong, Please try again later');
-             } 
+             }
         } else {
              return back()->with('error','This Data no longer exist');
-        } 
-        
-     } 
+        }
+
+     }
 
     /**
      * Remove the specified resource from storage.
@@ -183,8 +198,8 @@ class CategoryController extends Controller
               }
               return \Redirect::route('category.index')->with('success','Successfully deleted a category');
            } else {
-              
-              return back()->with('error','Someting went wrong');      
+
+              return back()->with('error','Someting went wrong');
            }
 
         }  else {
